@@ -92,7 +92,7 @@ h1 {
 
 .cherry-card {
   display: grid;
-  grid-template-rows: auto 74px auto;
+  grid-template-rows: auto 84px auto;
   justify-items: center;
   align-content: center;
 }
@@ -114,28 +114,30 @@ h1 {
 }
 
 .branches {
-  width: 210px;
-  height: 74px;
+  width: 250px;
+  height: 84px;
   position: relative;
 }
 
 .branches span {
-  width: 100px;
+  width: 120px;
   height: 4px;
   position: absolute;
-  top: 36px;
+  top: 38px;
   background: #7b4f35;
-  transform-origin: center;
+  border-radius: 999px;
 }
 
 .branches span:first-child {
-  left: 24px;
-  transform: rotate(28deg);
+  left: 36px;
+  transform: rotate(-30deg);
+  transform-origin: right center;
 }
 
 .branches span:last-child {
-  right: 24px;
-  transform: rotate(-28deg);
+  right: 36px;
+  transform: rotate(30deg);
+  transform-origin: left center;
 }
 
 .cherry-children {

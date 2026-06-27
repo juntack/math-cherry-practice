@@ -31,7 +31,7 @@ export function CherryDiagram({
 function CherryNumber({ active, value }: { active: boolean; value?: number }) {
   return (
     <div className={active ? "cherry-number active" : "cherry-number"}>
-      {value ?? "□"}
+      {value ?? "?"}
     </div>
   );
 }
