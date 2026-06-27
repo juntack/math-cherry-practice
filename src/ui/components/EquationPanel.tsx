@@ -20,6 +20,23 @@ export function EquationPanel({
   answers,
   stage
 }: EquationPanelProps) {
+  if (stage === "mental_calculation") {
+    const operator = problem.operation === "addition" ? "+" : "-";
+    const answer = answers["mental-answer"];
+
+    return (
+      <div className="equation-panel mental-panel" aria-label="あんざん">
+        <div className="equation-line">
+          {problem.left} {operator} {problem.right} ={" "}
+          {completed ? problem.answer : answer ?? "□"}
+        </div>
+        <div className="equation-note">
+          {completed ? `こたえは${problem.answer}` : "こたえをえらぼう"}
+        </div>
+      </div>
+    );
+  }
+
   if (stage !== "step_by_step") {
     return (
       <div className="equation-panel" aria-label="れんしゅうのねらい">

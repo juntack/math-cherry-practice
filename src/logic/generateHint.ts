@@ -24,7 +24,7 @@ export function generateHint(
       : `${neededToTen}に、のこりをたしたら${addend}になるかずをえらぼう。`;
   }
 
-  if (step.id === "final-answer") {
+  if (step.answerKind === "final_answer") {
     return mistakeCount <= 1
       ? `10のまとまりと、のこりの${remainder}をあわせてかんがえよう。`
       : `10から${remainder}だけすすむといくつになるかな？`;
@@ -62,7 +62,7 @@ function generateSubtractionHint(
       : `10から${subtrahend}だけもどるといくつかな？`;
   }
 
-  if (step.id === "subtraction-final-answer") {
+  if (step.answerKind === "final_answer") {
     return mistakeCount <= 1
       ? `${remainingAfterSubtractFromTen}と、はじめにわけた${ones}をあわせよう。`
       : `${remainingAfterSubtractFromTen}から${ones}だけすすむといくつかな？`;

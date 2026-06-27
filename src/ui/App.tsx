@@ -17,16 +17,20 @@ import { SetupScreen } from "./screens/SetupScreen";
 type SessionState = "setup" | "practice" | "result";
 
 const QUESTION_COUNT_OPTIONS = [3, 5, 10];
-const ACTIVE_STAGE: LearningStage = "step_by_step";
 const SUPPORT_OPTIONS: Array<{ value: SupportLevel; label: string }> = [
   { value: "full", label: "おおい" },
   { value: "medium", label: "ふつう" },
   { value: "less", label: "すくない" }
 ];
+const STAGE_OPTIONS: Array<{ value: LearningStage; label: string }> = [
+  { value: "step_by_step", label: "さくらんぼ" },
+  { value: "mental_calculation", label: "あんざん" }
+];
 
 export function App() {
   const [sessionState, setSessionState] = useState<SessionState>("setup");
   const [mode, setMode] = useState<PracticeMode>("addition");
+  const [stage, setStage] = useState<LearningStage>("step_by_step");
   const [supportLevel, setSupportLevel] = useState<SupportLevel>("full");
   const [questionCount, setQuestionCount] = useState(5);
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -40,8 +44,8 @@ export function App() {
 
   const problem = problems[problemIndex];
   const steps = useMemo(
-    () => (problem ? buildProblemSteps(problem, ACTIVE_STAGE) : []),
-    [problem]
+    () => (problem ? buildProblemSteps(problem, stage) : []),
+    [problem, stage]
   );
   const currentStep = steps[stepIndex];
   const problemCompleted = Boolean(problem) && stepIndex >= steps.length;
@@ -127,10 +131,13 @@ export function App() {
         mode={mode}
         questionCount={questionCount}
         questionCountOptions={QUESTION_COUNT_OPTIONS}
+        stage={stage}
+        stageOptions={STAGE_OPTIONS}
         supportLevel={supportLevel}
         supportOptions={SUPPORT_OPTIONS}
         onModeChange={setMode}
         onQuestionCountChange={setQuestionCount}
+        onStageChange={setStage}
         onSupportLevelChange={setSupportLevel}
         onStart={startSession}
       />
@@ -155,7 +162,7 @@ export function App() {
     <PracticeScreen
       problem={problem}
       currentStep={currentStep}
-      stage={ACTIVE_STAGE}
+      stage={stage}
       supportLevel={supportLevel}
       displayedAnswers={displayedAnswers}
       feedback={feedback}
@@ -166,6 +173,7 @@ export function App() {
       stepIndex={stepIndex}
       stepCount={steps.length}
       onAnswer={handleAnswer}
+      onBackToSetup={backToSetup}
       onNextProblem={goToNextProblem}
     />
   );

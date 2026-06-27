@@ -50,15 +50,10 @@ describe("createSubtractionProblem", () => {
     });
   });
 
-  it("supports splitting 19 into 10 and 9", () => {
-    const problem = createSubtractionProblem(19, 8);
-
-    expect(problem.answer).toBe(11);
-    expect(problem.strategy).toMatchObject({
-      type: "subtraction_split_minuend",
-      ones: 9,
-      remainingAfterSubtractFromTen: 2
-    });
+  it("does not use 19 as a subtraction minuend", () => {
+    expect(() => createSubtractionProblem(19, 8)).toThrow(
+      "Invalid borrowing subtraction problem"
+    );
   });
 });
 

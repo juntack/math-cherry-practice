@@ -43,4 +43,17 @@ describe("buildProblemSteps", () => {
       "combine_equation"
     ]);
   });
+
+  it("builds one final-answer step for mental calculation", () => {
+    const problem = createFixedAdditionProblem();
+    const steps = buildProblemSteps(problem, "mental_calculation");
+
+    expect(steps).toHaveLength(1);
+    expect(steps[0]).toMatchObject({
+      id: "mental-answer",
+      expectedAnswer: 15,
+      answerKind: "final_answer",
+      visualFocus: "combine_equation"
+    });
+  });
 });

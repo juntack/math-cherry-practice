@@ -12,6 +12,10 @@ export function buildProblemSteps(
     return buildMakeTenDecompositionSteps(problem);
   }
 
+  if (stage === "mental_calculation") {
+    return buildMentalCalculationSteps(problem);
+  }
+
   if (problem.strategy.type === "addition_make_ten") {
     return buildStepByStepAdditionSteps(problem);
   }
@@ -154,6 +158,21 @@ export function buildStepByStepSubtractionSteps(problem: Problem): ProblemStep[]
       id: "subtraction-final-answer",
       prompt: `${remainingAfterSubtractFromTen}と${ones}で、いくつ？`,
       expectedAnswer: answer,
+      answerKind: "final_answer",
+      visualTarget: "equation_blank",
+      visualFocus: "combine_equation"
+    }
+  ];
+}
+
+export function buildMentalCalculationSteps(problem: Problem): ProblemStep[] {
+  const operator = problem.operation === "addition" ? "+" : "-";
+
+  return [
+    {
+      id: "mental-answer",
+      prompt: `${problem.left} ${operator} ${problem.right} はいくつ？`,
+      expectedAnswer: problem.answer,
       answerKind: "final_answer",
       visualTarget: "equation_blank",
       visualFocus: "combine_equation"

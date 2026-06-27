@@ -1,9 +1,13 @@
-import type { Problem } from "../domain/problemTypes";
+import type { LearningStage, Problem } from "../domain/problemTypes";
 
-export function getModeLabel(operation: Problem["operation"]): string {
-  return operation === "addition"
-    ? "たしざん・さくらんぼけいさん"
-    : "ひきざん・さくらんぼけいさん";
+export function getModeLabel(
+  operation: Problem["operation"],
+  stage: LearningStage
+): string {
+  const mode = operation === "addition" ? "たしざん" : "ひきざん";
+  const style = stage === "mental_calculation" ? "あんざん" : "さくらんぼけいさん";
+
+  return `${mode}・${style}`;
 }
 
 export function getCherryParent(problem: Problem): number {

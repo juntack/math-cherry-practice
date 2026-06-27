@@ -40,7 +40,7 @@ export function createAdditionProblem(a: number, b: number): Problem {
 export function createSubtractionProblem(a: number, b: number): Problem {
   const ones = a - 10;
 
-  if (a < 11 || a > 19 || b < 1 || b > 9 || (a < 19 && ones >= b)) {
+  if (a < 11 || a > 18 || b < 1 || b > 9 || ones >= b) {
     throw new Error(`Invalid borrowing subtraction problem: ${a} - ${b}`);
   }
 
@@ -96,9 +96,9 @@ export function generateSubtractionProblem(
 ): Problem {
   const candidates: Array<[number, number]> = [];
 
-  for (let a = 11; a <= 19; a += 1) {
+  for (let a = 11; a <= 18; a += 1) {
     for (let b = 1; b <= 9; b += 1) {
-      if (a === 19 || a - 10 < b) {
+      if (a - 10 < b) {
         candidates.push([a, b]);
       }
     }

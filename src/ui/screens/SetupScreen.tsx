@@ -1,14 +1,21 @@
-import type { PracticeMode, SupportLevel } from "../../domain/problemTypes";
+import type {
+  LearningStage,
+  PracticeMode,
+  SupportLevel
+} from "../../domain/problemTypes";
 import { RadioOption } from "../components/RadioOption";
 
 type SetupScreenProps = {
   mode: PracticeMode;
   questionCount: number;
   questionCountOptions: number[];
+  stage: LearningStage;
+  stageOptions: Array<{ value: LearningStage; label: string }>;
   supportLevel: SupportLevel;
   supportOptions: Array<{ value: SupportLevel; label: string }>;
   onModeChange: (mode: PracticeMode) => void;
   onQuestionCountChange: (count: number) => void;
+  onStageChange: (stage: LearningStage) => void;
   onSupportLevelChange: (supportLevel: SupportLevel) => void;
   onStart: () => void;
 };
@@ -17,10 +24,13 @@ export function SetupScreen({
   mode,
   questionCount,
   questionCountOptions,
+  stage,
+  stageOptions,
   supportLevel,
   supportOptions,
   onModeChange,
   onQuestionCountChange,
+  onStageChange,
   onSupportLevelChange,
   onStart
 }: SetupScreenProps) {
@@ -70,6 +80,20 @@ export function SetupScreen({
                 checked={questionCount === count}
                 onChange={() => onQuestionCountChange(count)}
                 label={`${count}もん`}
+              />
+            ))}
+          </fieldset>
+
+          <fieldset>
+            <legend>やりかた</legend>
+            {stageOptions.map((option) => (
+              <RadioOption
+                key={option.value}
+                name="stage"
+                value={option.value}
+                checked={stage === option.value}
+                onChange={() => onStageChange(option.value)}
+                label={option.label}
               />
             ))}
           </fieldset>

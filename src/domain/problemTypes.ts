@@ -7,7 +7,8 @@ export type SupportLevel = "full" | "medium" | "less";
 export type LearningStage =
   | "number_decomposition"
   | "make_ten_decomposition"
-  | "step_by_step";
+  | "step_by_step"
+  | "mental_calculation";
 
 export type AdditionMakeTenStrategy = {
   type: "addition_make_ten";

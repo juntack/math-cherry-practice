@@ -30,6 +30,18 @@ export function FocusPanel({
   stage,
   supportLevel
 }: FocusPanelProps) {
+  if (stage === "mental_calculation") {
+    return (
+      <EquationPanel
+        problem={problem}
+        currentStep={currentStep}
+        completed={completed}
+        answers={answers}
+        stage={stage}
+      />
+    );
+  }
+
   if (supportLevel !== "full") {
     return (
       <ReducedSupportPanel

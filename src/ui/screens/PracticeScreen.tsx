@@ -26,6 +26,7 @@ type PracticeScreenProps = {
   stepIndex: number;
   stepCount: number;
   onAnswer: (value: number) => void;
+  onBackToSetup: () => void;
   onNextProblem: () => void;
 };
 
@@ -43,6 +44,7 @@ export function PracticeScreen({
   stepIndex,
   stepCount,
   onAnswer,
+  onBackToSetup,
   onNextProblem
 }: PracticeScreenProps) {
   return (
@@ -50,13 +52,16 @@ export function PracticeScreen({
       <section className="practice-surface" aria-label="さくらんぼけいさんのれんしゅう">
         <header className="practice-header">
           <div>
-            <p className="mode-label">{getModeLabel(problem.operation)}</p>
+            <p className="mode-label">{getModeLabel(problem.operation, stage)}</p>
             <h1>
               {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
               {problem.right}
             </h1>
           </div>
           <div className="progress-stack">
+            <button className="top-button" type="button" onClick={onBackToSetup}>
+              トップへ
+            </button>
             <div className="step-pill">
               {problemCompleted ? "せいかい" : `${stepIndex + 1} / ${stepCount}`}
             </div>
