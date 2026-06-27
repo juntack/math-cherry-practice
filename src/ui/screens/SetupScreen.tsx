@@ -26,10 +26,10 @@ export function SetupScreen({
 }: SetupScreenProps) {
   return (
     <main className="app-shell">
-      <section className="practice-surface setup-surface" aria-label="練習の設定">
+      <section className="practice-surface setup-surface" aria-label="れんしゅうのせってい">
         <header className="practice-header">
           <div>
-            <p className="mode-label">さくらんぼ計算</p>
+            <p className="mode-label">さくらんぼけいさん</p>
             <h1>れんしゅう</h1>
           </div>
         </header>
@@ -56,12 +56,12 @@ export function SetupScreen({
               value="mixed"
               checked={mode === "mixed"}
               onChange={() => onModeChange("mixed")}
-              label="まぜる"
+              label="どちらも"
             />
           </fieldset>
 
           <fieldset>
-            <legend>なんもん</legend>
+            <legend>もんだいすう</legend>
             {questionCountOptions.map((count) => (
               <RadioOption
                 key={count}
@@ -75,7 +75,7 @@ export function SetupScreen({
           </fieldset>
 
           <fieldset>
-            <legend>ほじょ</legend>
+            <legend>ヒントのりょう</legend>
             {supportOptions.map((option) => (
               <RadioOption
                 key={option.value}

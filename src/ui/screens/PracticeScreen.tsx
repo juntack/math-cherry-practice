@@ -47,7 +47,7 @@ export function PracticeScreen({
 }: PracticeScreenProps) {
   return (
     <main className="app-shell">
-      <section className="practice-surface" aria-label="さくらんぼ計算の練習">
+      <section className="practice-surface" aria-label="さくらんぼけいさんのれんしゅう">
         <header className="practice-header">
           <div>
             <p className="mode-label">{getModeLabel(problem.operation)}</p>
@@ -58,7 +58,7 @@ export function PracticeScreen({
           </div>
           <div className="progress-stack">
             <div className="step-pill">
-              {problemCompleted ? "できた" : `${stepIndex + 1} / ${stepCount}`}
+              {problemCompleted ? "せいかい" : `${stepIndex + 1} / ${stepCount}`}
             </div>
             <div className="question-progress">
               {problemIndex + 1} / {problemCount} もん

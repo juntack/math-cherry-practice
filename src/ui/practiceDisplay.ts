@@ -2,8 +2,8 @@ import type { Problem } from "../domain/problemTypes";
 
 export function getModeLabel(operation: Problem["operation"]): string {
   return operation === "addition"
-    ? "たしざん・さくらんぼ計算"
-    : "ひきざん・さくらんぼ計算";
+    ? "たしざん・さくらんぼけいさん"
+    : "ひきざん・さくらんぼけいさん";
 }
 
 export function getCherryParent(problem: Problem): number {

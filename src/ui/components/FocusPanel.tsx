@@ -105,7 +105,7 @@ function ReducedSupportPanel({
   answers: Record<string, number>;
 }) {
   return (
-    <div className="focus-panel reduced-focus-panel" aria-label="すくないほじょ">
+    <div className="focus-panel reduced-focus-panel" aria-label="ヒントがすくない">
       <div className="reduced-equation">
         {getReducedEquation(problem, currentStep, completed, answers)}
       </div>

@@ -22,11 +22,11 @@ export function EquationPanel({
 }: EquationPanelProps) {
   if (stage !== "step_by_step") {
     return (
-      <div className="equation-panel" aria-label="練習のねらい">
+      <div className="equation-panel" aria-label="れんしゅうのねらい">
         <div className="focus-message">
           {stage === "number_decomposition"
-            ? "数を2つにわけよう"
-            : "10を作るわけ方を考えよう"}
+            ? "かずを2つにわけよう"
+            : "10をつくるわけかたをかんがえよう"}
         </div>
         <TenFrameGroup problem={problem} answers={answers} stage={stage} />
       </div>
@@ -39,7 +39,7 @@ export function EquationPanel({
     const finalAnswer = answers["subtraction-final-answer"];
 
     return (
-      <div className="equation-panel" aria-label="途中計算">
+      <div className="equation-panel" aria-label="とちゅうのけいさん">
         <div className="equation-line">
           10 - {problem.strategy.subtrahend} = {remaining ?? "□"}
         </div>
@@ -48,9 +48,9 @@ export function EquationPanel({
         </div>
         <div className="equation-note">
           {completed
-            ? `答えは${problem.answer}`
+            ? `こたえは${problem.answer}`
             : currentStep?.id === "subtraction-final-answer"
-              ? "さいごの答えをえらぼう"
+              ? "さいごのこたえをえらぼう"
               : "10からひいて、のこりをあわせよう"}
         </div>
         <TenFrameGroup problem={problem} answers={answers} stage={stage} />
@@ -63,7 +63,7 @@ export function EquationPanel({
   const answer = answers["final-answer"];
 
   return (
-    <div className="equation-panel" aria-label="途中計算">
+    <div className="equation-panel" aria-label="とちゅうのけいさん">
       <div className="equation-line">
         {problem.strategy.base} + {neededToTen ?? "□"} ={" "}
         {neededToTen === problem.strategy.neededToTen ? 10 : "□"}
@@ -73,10 +73,10 @@ export function EquationPanel({
       </div>
       <div className="equation-note">
         {completed
-          ? `答えは${problem.answer}`
+          ? `こたえは${problem.answer}`
           : currentStep?.id === "final-answer"
-            ? "さいごの答えをえらぼう"
-            : "まず10のまとまりを作ろう"}
+            ? "さいごのこたえをえらぼう"
+            : "まず10のまとまりをつくろう"}
       </div>
       <TenFrameGroup problem={problem} answers={answers} stage={stage} />
     </div>
@@ -121,7 +121,7 @@ function TenFrameGroup({
         value={remaining ?? 10}
         mutedFrom={remaining}
       />
-      {ones !== undefined && <TenFrame label="わけた数" value={ones} />}
+      {ones !== undefined && <TenFrame label="わけたかず" value={ones} />}
     </div>
   );
 }

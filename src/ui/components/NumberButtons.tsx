@@ -5,7 +5,7 @@ type NumberButtonsProps = {
 
 export function NumberButtons({ max, onSelect }: NumberButtonsProps) {
   return (
-    <div className="number-grid" aria-label="数字ボタン">
+    <div className="number-grid" aria-label="すうじボタン">
       {Array.from({ length: max + 1 }, (_, value) => (
         <button
           className="number-button"

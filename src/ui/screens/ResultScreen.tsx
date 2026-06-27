@@ -11,7 +11,7 @@ export function ResultScreen({
 }: ResultScreenProps) {
   return (
     <main className="app-shell">
-      <section className="practice-surface result-surface" aria-label="練習結果">
+      <section className="practice-surface result-surface" aria-label="れんしゅうのけっか">
         <p className="mode-label">おしまい</p>
         <h1>{completedProblems}もん</h1>
         <p className="result-message">さいごまでできました。</p>
