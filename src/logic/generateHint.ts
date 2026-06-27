@@ -14,23 +14,23 @@ export function generateHint(
 
   if (errorType === "wrong_complement_to_ten") {
     return mistakeCount <= 1
-      ? `${base}から10まで、あといくつ進むかな？`
-      : `${base}にいくつ足すと10になるか、数字をひとつずつ数えてみよう。`;
+      ? `${base}から10まで、あといくつすすむかな？`
+      : `${base}にいくつたすと10になるか、すうじをひとつずつかぞえてみよう。`;
   }
 
   if (errorType === "decomposition_sum_mismatch") {
     return mistakeCount <= 1
       ? `${addend}を${neededToTen}といくつにわけると、もとの${addend}になるかな？`
-      : `${neededToTen}に、のこりを足したら${addend}になる数をえらぼう。`;
+      : `${neededToTen}に、のこりをたしたら${addend}になるかずをえらぼう。`;
   }
 
   if (step.id === "final-answer") {
     return mistakeCount <= 1
-      ? `10のまとまりと、のこりの${remainder}をあわせて考えよう。`
-      : `10から${remainder}だけ進むといくつになるかな？`;
+      ? `10のまとまりと、のこりの${remainder}をあわせてかんがえよう。`
+      : `10から${remainder}だけすすむといくつになるかな？`;
   }
 
-  return "もういちど、ゆっくり考えてみよう。";
+  return "もういちど、ゆっくりかんがえてみよう。";
 }
 
 function generateSubtractionHint(
@@ -40,7 +40,7 @@ function generateSubtractionHint(
   mistakeCount: number
 ): string {
   if (problem.strategy.type !== "subtraction_split_minuend") {
-    return "もういちど、ゆっくり考えてみよう。";
+    return "もういちど、ゆっくりかんがえてみよう。";
   }
 
   const {
@@ -53,20 +53,20 @@ function generateSubtractionHint(
   if (errorType === "decomposition_sum_mismatch") {
     return mistakeCount <= 1
       ? `${minuend}は、10といくつにわけられるかな？`
-      : `${minuend}は10よりいくつ大きいか考えよう。`;
+      : `${minuend}は10よりいくつおおきいか、かんがえよう。`;
   }
 
   if (errorType === "wrong_remainder_after_make_ten") {
     return mistakeCount <= 1
-      ? `10から${subtrahend}をひくところだけ考えよう。`
-      : `10から${subtrahend}だけ戻るといくつかな？`;
+      ? `10から${subtrahend}をひくところだけ、かんがえよう。`
+      : `10から${subtrahend}だけもどるといくつかな？`;
   }
 
   if (step.id === "subtraction-final-answer") {
     return mistakeCount <= 1
       ? `${remainingAfterSubtractFromTen}と、はじめにわけた${ones}をあわせよう。`
-      : `${remainingAfterSubtractFromTen}から${ones}だけ進むといくつかな？`;
+      : `${remainingAfterSubtractFromTen}から${ones}だけすすむといくつかな？`;
   }
 
-  return "もういちど、ゆっくり考えてみよう。";
+  return "もういちど、ゆっくりかんがえてみよう。";
 }
