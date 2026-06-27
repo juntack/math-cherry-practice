@@ -1,5 +1,10 @@
 import { useMemo, useState } from "react";
-import type { LearningStage, PracticeMode, Problem } from "../domain/problemTypes";
+import type {
+  LearningStage,
+  PracticeMode,
+  Problem,
+  SupportLevel
+} from "../domain/problemTypes";
 import { playFeedbackSound } from "../audio/feedbackSound";
 import { buildProblemSteps } from "../logic/buildProblemSteps";
 import { generateProblem } from "../logic/createProblem";
@@ -13,10 +18,15 @@ type SessionState = "setup" | "practice" | "result";
 
 const QUESTION_COUNT_OPTIONS = [3, 5, 10];
 const ACTIVE_STAGE: LearningStage = "step_by_step";
+const SUPPORT_OPTIONS: Array<{ value: SupportLevel; label: string }> = [
+  { value: "full", label: "おおい" },
+  { value: "less", label: "すくない" }
+];
 
 export function App() {
   const [sessionState, setSessionState] = useState<SessionState>("setup");
   const [mode, setMode] = useState<PracticeMode>("addition");
+  const [supportLevel, setSupportLevel] = useState<SupportLevel>("full");
   const [questionCount, setQuestionCount] = useState(5);
   const [problems, setProblems] = useState<Problem[]>([]);
   const [problemIndex, setProblemIndex] = useState(0);
@@ -116,8 +126,11 @@ export function App() {
         mode={mode}
         questionCount={questionCount}
         questionCountOptions={QUESTION_COUNT_OPTIONS}
+        supportLevel={supportLevel}
+        supportOptions={SUPPORT_OPTIONS}
         onModeChange={setMode}
         onQuestionCountChange={setQuestionCount}
+        onSupportLevelChange={setSupportLevel}
         onStart={startSession}
       />
     );
@@ -142,6 +155,7 @@ export function App() {
       problem={problem}
       currentStep={currentStep}
       stage={ACTIVE_STAGE}
+      supportLevel={supportLevel}
       displayedAnswers={displayedAnswers}
       feedback={feedback}
       hint={hint}

@@ -2,6 +2,8 @@ export type Operation = "addition" | "subtraction";
 
 export type PracticeMode = Operation | "mixed";
 
+export type SupportLevel = "full" | "less";
+
 export type LearningStage =
   | "number_decomposition"
   | "make_ten_decomposition"

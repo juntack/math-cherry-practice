@@ -1,7 +1,8 @@
 import type {
   LearningStage,
   Problem,
-  ProblemStep
+  ProblemStep,
+  SupportLevel
 } from "../../domain/problemTypes";
 import { CherryDiagram } from "./CherryDiagram";
 import { EquationPanel } from "./EquationPanel";
@@ -18,6 +19,7 @@ type FocusPanelProps = {
   completed: boolean;
   answers: Record<string, number>;
   stage: LearningStage;
+  supportLevel: SupportLevel;
 };
 
 export function FocusPanel({
@@ -25,8 +27,20 @@ export function FocusPanel({
   currentStep,
   completed,
   answers,
-  stage
+  stage,
+  supportLevel
 }: FocusPanelProps) {
+  if (supportLevel === "less") {
+    return (
+      <ReducedSupportPanel
+        problem={problem}
+        currentStep={currentStep}
+        completed={completed}
+        answers={answers}
+      />
+    );
+  }
+
   const visualFocus = currentStep?.visualFocus ?? "combine_equation";
 
   if (visualFocus === "split_cherry") {
@@ -77,4 +91,68 @@ export function FocusPanel({
       stage={stage}
     />
   );
+}
+
+function ReducedSupportPanel({
+  problem,
+  currentStep,
+  completed,
+  answers
+}: {
+  problem: Problem;
+  currentStep?: ProblemStep;
+  completed: boolean;
+  answers: Record<string, number>;
+}) {
+  return (
+    <div className="focus-panel reduced-focus-panel" aria-label="すくないほじょ">
+      <div className="reduced-equation">
+        {getReducedEquation(problem, currentStep, completed, answers)}
+      </div>
+    </div>
+  );
+}
+
+function getReducedEquation(
+  problem: Problem,
+  currentStep: ProblemStep | undefined,
+  completed: boolean,
+  answers: Record<string, number>
+): string {
+  if (completed) {
+    const operator = problem.operation === "addition" ? "+" : "-";
+    return `${problem.left} ${operator} ${problem.right} = ${problem.answer}`;
+  }
+
+  if (!currentStep) {
+    return "";
+  }
+
+  if (problem.strategy.type === "addition_make_ten") {
+    const needed = answers["needed-to-ten"];
+    const remainder = answers.remainder;
+
+    if (currentStep.id === "needed-to-ten") {
+      return `${problem.strategy.base} + □ = 10`;
+    }
+
+    if (currentStep.id === "remainder") {
+      return `${problem.strategy.addend} = ${problem.strategy.neededToTen} + □`;
+    }
+
+    return `10 + ${remainder ?? "□"} = □`;
+  }
+
+  const ones = answers["subtraction-ones"];
+  const remaining = answers["subtract-from-ten"];
+
+  if (currentStep.id === "subtraction-ones") {
+    return `${problem.strategy.minuend} = 10 + □`;
+  }
+
+  if (currentStep.id === "subtract-from-ten") {
+    return `10 - ${problem.strategy.subtrahend} = □`;
+  }
+
+  return `${remaining ?? "□"} + ${ones ?? "□"} = □`;
 }

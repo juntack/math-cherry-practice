@@ -1,12 +1,15 @@
-import type { PracticeMode } from "../../domain/problemTypes";
+import type { PracticeMode, SupportLevel } from "../../domain/problemTypes";
 import { RadioOption } from "../components/RadioOption";
 
 type SetupScreenProps = {
   mode: PracticeMode;
   questionCount: number;
   questionCountOptions: number[];
+  supportLevel: SupportLevel;
+  supportOptions: Array<{ value: SupportLevel; label: string }>;
   onModeChange: (mode: PracticeMode) => void;
   onQuestionCountChange: (count: number) => void;
+  onSupportLevelChange: (supportLevel: SupportLevel) => void;
   onStart: () => void;
 };
 
@@ -14,8 +17,11 @@ export function SetupScreen({
   mode,
   questionCount,
   questionCountOptions,
+  supportLevel,
+  supportOptions,
   onModeChange,
   onQuestionCountChange,
+  onSupportLevelChange,
   onStart
 }: SetupScreenProps) {
   return (
@@ -68,6 +74,19 @@ export function SetupScreen({
             ))}
           </fieldset>
 
+          <fieldset>
+            <legend>ほじょ</legend>
+            {supportOptions.map((option) => (
+              <RadioOption
+                key={option.value}
+                name="support-level"
+                value={option.value}
+                checked={supportLevel === option.value}
+                onChange={() => onSupportLevelChange(option.value)}
+                label={option.label}
+              />
+            ))}
+          </fieldset>
         </div>
 
         <button className="primary-action" type="button" onClick={onStart}>

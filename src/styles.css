@@ -93,7 +93,7 @@ h1 {
 
 .setup-panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
   gap: 24px;
 }
 
@@ -166,6 +166,22 @@ h1 {
 .focus-panel {
   display: grid;
   place-items: center;
+}
+
+.reduced-focus-panel {
+  min-height: 220px;
+}
+
+.reduced-equation {
+  width: min(100%, 680px);
+  padding: 28px 24px;
+  border: 2px solid #d7e6e2;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #173c42;
+  font-size: clamp(42px, 8vw, 78px);
+  font-weight: 900;
+  text-align: center;
 }
 
 .cherry-card {

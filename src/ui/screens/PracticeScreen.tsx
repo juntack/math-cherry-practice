@@ -1,12 +1,13 @@
 import type {
   LearningStage,
   Problem,
-  ProblemStep
+  ProblemStep,
+  SupportLevel
 } from "../../domain/problemTypes";
 import { FocusPanel } from "../components/FocusPanel";
 import { NumberButtons } from "../components/NumberButtons";
 import {
-  getModeLabel,
+  getModeLabel
 } from "../practiceDisplay";
 
 export type Feedback = "correct" | "incorrect" | null;
@@ -15,6 +16,7 @@ type PracticeScreenProps = {
   problem: Problem;
   currentStep?: ProblemStep;
   stage: LearningStage;
+  supportLevel: SupportLevel;
   displayedAnswers: Record<string, number>;
   feedback: Feedback;
   hint: string;
@@ -31,6 +33,7 @@ export function PracticeScreen({
   problem,
   currentStep,
   stage,
+  supportLevel,
   displayedAnswers,
   feedback,
   hint,
@@ -70,6 +73,7 @@ export function PracticeScreen({
             completed={problemCompleted}
             answers={displayedAnswers}
             stage={stage}
+            supportLevel={supportLevel}
           />
         </div>
 
