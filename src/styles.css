@@ -160,8 +160,13 @@ h1 {
   align-items: stretch;
 }
 
+.focus-work-area {
+  grid-template-columns: minmax(280px, 1fr);
+}
+
 .cherry-card,
-.equation-panel {
+.equation-panel,
+.focus-panel {
   min-height: 280px;
   padding: 24px;
   border: 2px solid #d8e3e0;
@@ -169,9 +174,15 @@ h1 {
   background: #fbfcfa;
 }
 
+.focus-panel {
+  display: grid;
+  place-items: center;
+}
+
 .cherry-card {
   display: grid;
   place-items: center;
+  width: 100%;
 }
 
 .cherry-diagram {
@@ -311,6 +322,19 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, minmax(128px, 1fr));
   gap: 12px;
+}
+
+.ten-frame-focus .ten-frame-block {
+  width: min(100%, 520px);
+}
+
+.ten-frame-focus .ten-frame-label {
+  font-size: clamp(24px, 4vw, 36px);
+}
+
+.ten-frame-focus .ten-frame {
+  gap: 10px;
+  padding: 16px;
 }
 
 .ten-frame-block {

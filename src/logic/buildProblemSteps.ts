@@ -30,6 +30,7 @@ export function buildNumberDecompositionSteps(problem: Problem): ProblemStep[] {
         expectedAnswer: remainder,
         answerKind: "decomposition_part",
         visualTarget: "cherry_right",
+        visualFocus: "split_cherry",
         knownAnswers: {
           "needed-to-ten": neededToTen
         }
@@ -46,6 +47,7 @@ export function buildNumberDecompositionSteps(problem: Problem): ProblemStep[] {
       expectedAnswer: ones,
       answerKind: "decomposition_part",
       visualTarget: "cherry_right",
+      visualFocus: "split_cherry",
       knownAnswers: {
         "subtraction-ten": 10
       }
@@ -63,14 +65,16 @@ export function buildMakeTenDecompositionSteps(problem: Problem): ProblemStep[] 
         prompt: `${base}を10にするには、あといくつ？`,
         expectedAnswer: neededToTen,
         answerKind: "complement_to_ten",
-        visualTarget: "cherry_left"
+        visualTarget: "cherry_left",
+        visualFocus: "base_ten_frame"
       },
       {
         id: "remainder",
         prompt: `${addend}を${neededToTen}といくつにわける？`,
         expectedAnswer: remainder,
         answerKind: "decomposition_part",
-        visualTarget: "cherry_right"
+        visualTarget: "cherry_right",
+        visualFocus: "split_cherry"
       }
     ];
   }
@@ -91,7 +95,8 @@ export function buildStepByStepAdditionSteps(problem: Problem): ProblemStep[] {
       prompt: `${base}を10にするには、あといくつ？`,
       expectedAnswer: neededToTen,
       answerKind: "complement_to_ten",
-      visualTarget: "cherry_left"
+      visualTarget: "cherry_left",
+      visualFocus: "base_ten_frame"
     },
     {
       id: "remainder",
@@ -99,6 +104,7 @@ export function buildStepByStepAdditionSteps(problem: Problem): ProblemStep[] {
       expectedAnswer: remainder,
       answerKind: "decomposition_part",
       visualTarget: "cherry_right",
+      visualFocus: "split_cherry",
       knownAnswers: {
         "needed-to-ten": neededToTen
       }
@@ -108,7 +114,8 @@ export function buildStepByStepAdditionSteps(problem: Problem): ProblemStep[] {
       prompt: `10と${remainder}で、いくつ？`,
       expectedAnswer: answer,
       answerKind: "final_answer",
-      visualTarget: "equation_blank"
+      visualTarget: "equation_blank",
+      visualFocus: "combine_equation"
     }
   ];
 }
@@ -132,21 +139,24 @@ export function buildStepByStepSubtractionSteps(problem: Problem): ProblemStep[]
       prompt: `${minuend}を10といくつにわける？`,
       expectedAnswer: ones,
       answerKind: "decomposition_part",
-      visualTarget: "cherry_right"
+      visualTarget: "cherry_right",
+      visualFocus: "split_cherry"
     },
     {
       id: "subtract-from-ten",
       prompt: `10から${subtrahend}をひくと、いくつ？`,
       expectedAnswer: remainingAfterSubtractFromTen,
       answerKind: "intermediate_result",
-      visualTarget: "equation_blank"
+      visualTarget: "equation_blank",
+      visualFocus: "subtract_ten_frame"
     },
     {
       id: "subtraction-final-answer",
       prompt: `${remainingAfterSubtractFromTen}と${ones}で、いくつ？`,
       expectedAnswer: answer,
       answerKind: "final_answer",
-      visualTarget: "equation_blank"
+      visualTarget: "equation_blank",
+      visualFocus: "combine_equation"
     }
   ];
 }

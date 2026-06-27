@@ -102,14 +102,17 @@ src/
 src/ui/
   App.tsx
   practiceDisplay.ts
-    components/
-      CherryDiagram.tsx
-      EquationPanel.tsx
-      NumberButtons.tsx
-      RadioOption.tsx
-      TenFrame.tsx
+  components/
+    CherryDiagram.tsx
+    EquationPanel.tsx
+    FocusPanel.tsx
+    NumberButtons.tsx
+    RadioOption.tsx
+    TenFrame.tsx
   screens/
     SetupScreen.tsx
     PracticeScreen.tsx
     ResultScreen.tsx
 ```
+
+各 `ProblemStep` は `visualFocus` を持ち、現在の問いに対応する図だけを主表示する。これにより、例えば足し算の最初の「7を10にするには、あといくつ？」では10フレームを主表示し、次の「8を3といくつにわける？」ではさくらんぼ図を主表示する。

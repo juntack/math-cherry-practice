@@ -3,13 +3,9 @@ import type {
   Problem,
   ProblemStep
 } from "../../domain/problemTypes";
-import { CherryDiagram } from "../components/CherryDiagram";
-import { EquationPanel } from "../components/EquationPanel";
+import { FocusPanel } from "../components/FocusPanel";
 import { NumberButtons } from "../components/NumberButtons";
 import {
-  getCherryLeftValue,
-  getCherryParent,
-  getCherryRightValue,
   getModeLabel,
   getStageLabel
 } from "../practiceDisplay";
@@ -69,15 +65,8 @@ export function PracticeScreen({
           </div>
         </header>
 
-        <div className="work-area">
-          <CherryDiagram
-            parent={getCherryParent(problem)}
-            leftValue={getCherryLeftValue(problem, displayedAnswers)}
-            rightValue={getCherryRightValue(problem, displayedAnswers)}
-            activeTarget={currentStep?.visualTarget}
-          />
-
-          <EquationPanel
+        <div className="work-area focus-work-area">
+          <FocusPanel
             problem={problem}
             currentStep={currentStep}
             completed={problemCompleted}

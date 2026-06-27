@@ -14,6 +14,7 @@ describe("buildProblemSteps", () => {
     expect(steps[0]).toMatchObject({
       expectedAnswer: 5,
       visualTarget: "cherry_right",
+      visualFocus: "split_cherry",
       knownAnswers: {
         "needed-to-ten": 2
       }
@@ -25,6 +26,10 @@ describe("buildProblemSteps", () => {
     const steps = buildProblemSteps(problem, "make_ten_decomposition");
 
     expect(steps.map((step) => step.id)).toEqual(["needed-to-ten", "remainder"]);
+    expect(steps.map((step) => step.visualFocus)).toEqual([
+      "base_ten_frame",
+      "split_cherry"
+    ]);
   });
 
   it("builds step-by-step calculation steps for stage 3 subtraction", () => {
@@ -32,5 +37,10 @@ describe("buildProblemSteps", () => {
     const steps = buildProblemSteps(problem, "step_by_step");
 
     expect(steps.map((step) => step.expectedAnswer)).toEqual([3, 2, 5]);
+    expect(steps.map((step) => step.visualFocus)).toEqual([
+      "split_cherry",
+      "subtract_ten_frame",
+      "combine_equation"
+    ]);
   });
 });

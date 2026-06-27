@@ -48,12 +48,19 @@ export type AnswerKind =
 
 export type VisualTarget = "cherry_left" | "cherry_right" | "equation_blank";
 
+export type VisualFocus =
+  | "base_ten_frame"
+  | "split_cherry"
+  | "subtract_ten_frame"
+  | "combine_equation";
+
 export type ProblemStep = {
   id: string;
   prompt: string;
   expectedAnswer: number;
   answerKind: AnswerKind;
   visualTarget: VisualTarget;
+  visualFocus: VisualFocus;
   knownAnswers?: Record<string, number>;
 };
 
