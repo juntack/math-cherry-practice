@@ -88,6 +88,24 @@ export function PracticeScreen({
           )}
         </div>
 
+        <div
+          className="step-track"
+          aria-label={`${stepCount}このうち${Math.min(stepIndex + 1, stepCount)}こめ`}
+        >
+          {Array.from({ length: stepCount }, (_, index) => (
+            <span
+              key={index}
+              className={[
+                "step-dot",
+                index < stepIndex || problemCompleted ? "done" : "",
+                index === stepIndex && !problemCompleted ? "current" : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            />
+          ))}
+        </div>
+
         <div className="feedback-row" aria-live="polite">
           {feedback === "correct" && <div className="feedback correct">○</div>}
           {feedback === "incorrect" && <div className="feedback incorrect">×</div>}

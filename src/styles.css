@@ -399,6 +399,32 @@ h1 {
   font-weight: 900;
 }
 
+.step-track {
+  min-height: 36px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.step-dot {
+  width: 26px;
+  height: 26px;
+  border: 3px solid #bfd7d1;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.step-dot.current {
+  border-color: #f0a43a;
+  background: #f0a43a;
+  box-shadow: 0 0 0 8px rgba(240, 164, 58, 0.16);
+}
+
+.step-dot.done {
+  border-color: #2f8f83;
+  background: #2f8f83;
+}
+
 .feedback-row {
   min-height: 76px;
   display: grid;
@@ -532,5 +558,14 @@ h1 {
 
   .number-grid {
     grid-template-columns: repeat(4, minmax(64px, 1fr));
+  }
+
+  .step-track {
+    gap: 10px;
+  }
+
+  .step-dot {
+    width: 22px;
+    height: 22px;
   }
 }
