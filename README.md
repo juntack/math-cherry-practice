@@ -56,6 +56,23 @@ npm test
 npm run build
 ```
 
+## Android向けDebug APK
+
+Android版は、Viteの静的ビルド成果物をAPK内のassetsへ入れ、Android標準のWebViewで `file:///android_asset/index.html` を開く構成です。外部サーバーなしで起動できます。
+
+```sh
+cd android
+JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" ./gradlew :app:assembleDebug
+```
+
+生成されるAPK:
+
+```txt
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+`assembleDebug` 実行時に、Gradleが自動で親ディレクトリの `npm run build` を実行し、`dist/` の中身を `android/app/src/main/assets/` へ同期します。
+
 ## 初期版で含めないもの
 
 - 成績データ保存
