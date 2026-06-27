@@ -518,9 +518,30 @@ h1 {
   font-weight: 800;
 }
 
-.number-grid {
+.number-pad {
+  width: min(100%, 420px);
   display: grid;
-  grid-template-columns: repeat(8, minmax(70px, 1fr));
+  gap: 12px;
+  align-self: center;
+}
+
+.answer-display {
+  min-height: 64px;
+  padding: 8px 18px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #bfd7d1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #173c42;
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(84px, 1fr));
   gap: 12px;
 }
 
@@ -539,6 +560,23 @@ h1 {
   background: #173c42;
   color: #ffffff;
   font-size: clamp(28px, 5vw, 42px);
+}
+
+.utility-button {
+  background: #ffffff;
+  color: #244b54;
+  border: 2px solid #bfd7d1;
+}
+
+.submit-button {
+  background: #f0a43a;
+  color: #1d2c30;
+  font-size: clamp(18px, 3vw, 24px);
+}
+
+.number-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
 }
 
 .number-button:active,
@@ -606,8 +644,12 @@ h1 {
     min-height: 230px;
   }
 
-  .number-grid {
-    grid-template-columns: repeat(4, minmax(64px, 1fr));
+  .number-pad {
+    width: min(100%, 360px);
+  }
+
+  .keypad-grid {
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
   }
 
   .medium-focus-panel {

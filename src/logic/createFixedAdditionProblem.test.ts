@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  createAdditionProblem,
   createFixedAdditionProblem,
   createSubtractionProblem,
   generateAdditionProblem,
@@ -22,6 +23,19 @@ describe("createFixedAdditionProblem", () => {
   });
 });
 
+describe("createAdditionProblem", () => {
+  it("supports answers up to 19", () => {
+    const problem = createAdditionProblem(9, 10);
+
+    expect(problem.answer).toBe(19);
+    expect(problem.strategy).toMatchObject({
+      type: "addition_make_ten",
+      neededToTen: 1,
+      remainder: 9
+    });
+  });
+});
+
 describe("createSubtractionProblem", () => {
   it("creates the 13 - 8 split-minuend strategy", () => {
     const problem = createSubtractionProblem(13, 8);
@@ -35,6 +49,17 @@ describe("createSubtractionProblem", () => {
       remainingAfterSubtractFromTen: 2
     });
   });
+
+  it("supports splitting 19 into 10 and 9", () => {
+    const problem = createSubtractionProblem(19, 8);
+
+    expect(problem.answer).toBe(11);
+    expect(problem.strategy).toMatchObject({
+      type: "subtraction_split_minuend",
+      ones: 9,
+      remainingAfterSubtractFromTen: 2
+    });
+  });
 });
 
 describe("generateProblem", () => {
@@ -43,6 +68,7 @@ describe("generateProblem", () => {
 
     expect(problem.operation).toBe("addition");
     expect(problem.left + problem.right).toBeGreaterThanOrEqual(10);
+    expect(problem.left + problem.right).toBeLessThanOrEqual(19);
   });
 
   it("uses both operations in mixed mode", () => {

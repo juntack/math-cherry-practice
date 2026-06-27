@@ -127,7 +127,7 @@ export function PracticeScreen({
             </button>
           </div>
         ) : (
-          <NumberButtons max={18} onSelect={onAnswer} />
+          <NumberButtons max={19} onSelect={onAnswer} />
         )}
       </section>
     </main>
