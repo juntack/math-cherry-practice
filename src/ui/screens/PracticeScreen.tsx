@@ -106,12 +106,19 @@ export function PracticeScreen({
           ))}
         </div>
 
-        <div className="feedback-row" aria-live="polite">
-          {feedback === "correct" && <div className="feedback correct">○</div>}
-          {feedback === "incorrect" && <div className="feedback incorrect">×</div>}
-          {!feedback && hint && <div className="hint-box">{hint}</div>}
-          {!feedback && !hint && <div className="hint-placeholder"> </div>}
-        </div>
+        {problemCompleted ? (
+          <div className="completion-card" aria-live="polite">
+            <div className="completion-mark">○</div>
+            <p>このもんだい せいかい</p>
+          </div>
+        ) : (
+          <div className="feedback-row" aria-live="polite">
+            {feedback === "correct" && <div className="feedback correct">○</div>}
+            {feedback === "incorrect" && <div className="feedback incorrect">×</div>}
+            {!feedback && hint && <div className="hint-box">{hint}</div>}
+            {!feedback && !hint && <div className="hint-placeholder"> </div>}
+          </div>
+        )}
 
         {problemCompleted ? (
           <div className="complete-actions">

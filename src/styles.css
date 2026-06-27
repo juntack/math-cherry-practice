@@ -469,6 +469,38 @@ h1 {
   background: #c83c3c;
 }
 
+.completion-card {
+  min-height: 104px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border: 2px solid #b7d9cb;
+  border-radius: 8px;
+  background: #edf7f4;
+}
+
+.completion-mark {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #208b61;
+  color: #ffffff;
+  font-size: 54px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.completion-card p {
+  margin: 0;
+  color: #173c42;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 900;
+}
+
 .hint-box,
 .hint-placeholder {
   width: 100%;
@@ -589,5 +621,10 @@ h1 {
   .step-dot {
     width: 22px;
     height: 22px;
+  }
+
+  .completion-card {
+    flex-direction: column;
+    gap: 12px;
   }
 }
