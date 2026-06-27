@@ -53,7 +53,10 @@ export function PracticeScreen({
 
   return (
     <main className="app-shell">
-      <section className="practice-surface" aria-label="さくらんぼけいさんのれんしゅう">
+      <section
+        className="practice-surface practice-session-surface"
+        aria-label="さくらんぼけいさんのれんしゅう"
+      >
         <header className="practice-header">
           <div>
             <p className="mode-label">{getModeLabel(problem.operation, stage)}</p>
@@ -78,69 +81,75 @@ export function PracticeScreen({
           </div>
         </header>
 
-        <div className="work-area focus-work-area">
-          <FocusPanel
-            problem={problem}
-            currentStep={currentStep}
-            completed={problemCompleted}
-            answers={displayedAnswers}
-            stage={stage}
-            supportLevel={supportLevel}
-          />
-        </div>
+        <div className="practice-body">
+          <div className="practice-main-column">
+            <div className="work-area focus-work-area">
+              <FocusPanel
+                problem={problem}
+                currentStep={currentStep}
+                completed={problemCompleted}
+                answers={displayedAnswers}
+                stage={stage}
+                supportLevel={supportLevel}
+              />
+            </div>
 
-        <div className="prompt-row">
-          {problemCompleted ? (
-            <p>
-              {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
-              {problem.right} = {problem.answer}
-            </p>
-          ) : (
-            <p>{currentStep?.prompt}</p>
-          )}
-        </div>
+            <div className="prompt-row">
+              {problemCompleted ? (
+                <p>
+                  {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
+                  {problem.right} = {problem.answer}
+                </p>
+              ) : (
+                <p>{currentStep?.prompt}</p>
+              )}
+            </div>
 
-        <div
-          className="step-track"
-          aria-label={`${stepCount}このうち${Math.min(stepIndex + 1, stepCount)}こめ`}
-        >
-          {Array.from({ length: stepCount }, (_, index) => (
-            <span
-              key={index}
-              className={[
-                "step-dot",
-                index < stepIndex || problemCompleted ? "done" : "",
-                index === stepIndex && !problemCompleted ? "current" : ""
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            />
-          ))}
-        </div>
-
-        {problemCompleted ? (
-          <div className="completion-card" aria-live="polite">
-            <div className="completion-mark">○</div>
-            <p>このもんだい せいかい</p>
+            <div
+              className="step-track"
+              aria-label={`${stepCount}このうち${Math.min(stepIndex + 1, stepCount)}こめ`}
+            >
+              {Array.from({ length: stepCount }, (_, index) => (
+                <span
+                  key={index}
+                  className={[
+                    "step-dot",
+                    index < stepIndex || problemCompleted ? "done" : "",
+                    index === stepIndex && !problemCompleted ? "current" : ""
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                />
+              ))}
+            </div>
           </div>
-        ) : (
-          <div className="feedback-row" aria-live="polite">
-            {feedback === "correct" && <div className="feedback correct">○</div>}
-            {feedback === "incorrect" && <div className="feedback incorrect">×</div>}
-            {!feedback && hint && <div className="hint-box">{hint}</div>}
-            {!feedback && !hint && <div className="hint-placeholder"> </div>}
-          </div>
-        )}
 
-        {problemCompleted ? (
-          <div className="complete-actions">
-            <button className="primary-action" type="button" onClick={onNextProblem}>
-              {problemIndex + 1 >= problemCount ? "おしまい" : "つぎへ"}
-            </button>
+          <div className="answer-column">
+            {problemCompleted ? (
+              <div className="completion-card" aria-live="polite">
+                <div className="completion-mark">○</div>
+                <p>このもんだい せいかい</p>
+              </div>
+            ) : (
+              <div className="feedback-row" aria-live="polite">
+                {feedback === "correct" && <div className="feedback correct">○</div>}
+                {feedback === "incorrect" && <div className="feedback incorrect">×</div>}
+                {!feedback && hint && <div className="hint-box">{hint}</div>}
+                {!feedback && !hint && <div className="hint-placeholder"> </div>}
+              </div>
+            )}
+
+            {problemCompleted ? (
+              <div className="complete-actions">
+                <button className="primary-action" type="button" onClick={onNextProblem}>
+                  {problemIndex + 1 >= problemCount ? "おしまい" : "つぎへ"}
+                </button>
+              </div>
+            ) : (
+              <NumberButtons max={19} onSelect={onAnswer} />
+            )}
           </div>
-        ) : (
-          <NumberButtons max={19} onSelect={onAnswer} />
-        )}
+        </div>
       </section>
     </main>
   );
