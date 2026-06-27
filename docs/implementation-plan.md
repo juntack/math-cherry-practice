@@ -95,3 +95,20 @@ src/
     feedbackSound.ts
   tests/
 ```
+
+現状の実装では、`App.tsx` はセッション状態の管理に集中し、表示は `ui/screens/` と `ui/components/` に分割している。
+
+```txt
+src/ui/
+  App.tsx
+  practiceDisplay.ts
+  components/
+    CherryDiagram.tsx
+    EquationPanel.tsx
+    NumberButtons.tsx
+    RadioOption.tsx
+  screens/
+    SetupScreen.tsx
+    PracticeScreen.tsx
+    ResultScreen.tsx
+```

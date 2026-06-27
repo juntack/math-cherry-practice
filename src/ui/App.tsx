@@ -1,18 +1,14 @@
 import { useMemo, useState } from "react";
-import type {
-  LearningStage,
-  PracticeMode,
-  Problem,
-  ProblemStep
-} from "../domain/problemTypes";
+import type { LearningStage, PracticeMode, Problem } from "../domain/problemTypes";
 import { playFeedbackSound } from "../audio/feedbackSound";
 import { buildProblemSteps } from "../logic/buildProblemSteps";
 import { generateProblem } from "../logic/createProblem";
 import { evaluateAnswer } from "../logic/evaluateAnswer";
-import { CherryDiagram } from "./components/CherryDiagram";
-import { NumberButtons } from "./components/NumberButtons";
+import type { Feedback } from "./screens/PracticeScreen";
+import { PracticeScreen } from "./screens/PracticeScreen";
+import { ResultScreen } from "./screens/ResultScreen";
+import { SetupScreen } from "./screens/SetupScreen";
 
-type Feedback = "correct" | "incorrect" | null;
 type SessionState = "setup" | "practice" | "result";
 
 const QUESTION_COUNT_OPTIONS = [3, 5, 10];
@@ -121,95 +117,27 @@ export function App() {
 
   if (sessionState === "setup") {
     return (
-      <main className="app-shell">
-        <section className="practice-surface setup-surface" aria-label="練習の設定">
-          <header className="practice-header">
-            <div>
-              <p className="mode-label">さくらんぼ計算</p>
-              <h1>れんしゅう</h1>
-            </div>
-          </header>
-
-          <div className="setup-panel">
-            <fieldset>
-              <legend>もんだい</legend>
-              <RadioOption
-                name="mode"
-                value="addition"
-                checked={mode === "addition"}
-                onChange={() => setMode("addition")}
-                label="たしざん"
-              />
-              <RadioOption
-                name="mode"
-                value="subtraction"
-                checked={mode === "subtraction"}
-                onChange={() => setMode("subtraction")}
-                label="ひきざん"
-              />
-              <RadioOption
-                name="mode"
-                value="mixed"
-                checked={mode === "mixed"}
-                onChange={() => setMode("mixed")}
-                label="まぜる"
-              />
-            </fieldset>
-
-            <fieldset>
-              <legend>なんもん</legend>
-              {QUESTION_COUNT_OPTIONS.map((count) => (
-                <RadioOption
-                  key={count}
-                  name="question-count"
-                  value={String(count)}
-                  checked={questionCount === count}
-                  onChange={() => setQuestionCount(count)}
-                  label={`${count}もん`}
-                />
-              ))}
-            </fieldset>
-
-            <fieldset className="wide-fieldset">
-              <legend>れんしゅう</legend>
-              {STAGE_OPTIONS.map((option) => (
-                <RadioOption
-                  key={option.value}
-                  name="stage"
-                  value={option.value}
-                  checked={stage === option.value}
-                  onChange={() => setStage(option.value)}
-                  label={option.label}
-                />
-              ))}
-            </fieldset>
-          </div>
-
-          <button className="primary-action" type="button" onClick={startSession}>
-            はじめる
-          </button>
-        </section>
-      </main>
+      <SetupScreen
+        mode={mode}
+        stage={stage}
+        questionCount={questionCount}
+        questionCountOptions={QUESTION_COUNT_OPTIONS}
+        stageOptions={STAGE_OPTIONS}
+        onModeChange={setMode}
+        onStageChange={setStage}
+        onQuestionCountChange={setQuestionCount}
+        onStart={startSession}
+      />
     );
   }
 
   if (sessionState === "result") {
     return (
-      <main className="app-shell">
-        <section className="practice-surface result-surface" aria-label="練習結果">
-          <p className="mode-label">おしまい</p>
-          <h1>{completedProblems}もん</h1>
-          <p className="result-message">さいごまでできました。</p>
-          <div className="complete-actions">
-            <button className="primary-action" type="button" onClick={startSession}>
-              もういちど
-            </button>
-            <button className="secondary-action" type="button" onClick={backToSetup}>
-              せってい
-            </button>
-          </div>
-        </section>
-      </main>
+      <ResultScreen
+        completedProblems={completedProblems}
+        onRestart={startSession}
+        onBackToSetup={backToSetup}
+      />
     );
   }
 
@@ -218,212 +146,20 @@ export function App() {
   }
 
   return (
-    <main className="app-shell">
-      <section className="practice-surface" aria-label="さくらんぼ計算の練習">
-        <header className="practice-header">
-          <div>
-            <p className="mode-label">{getModeLabel(problem.operation)}</p>
-            <p className="stage-label">{getStageLabel(stage)}</p>
-            <h1>
-              {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
-              {problem.right}
-            </h1>
-          </div>
-          <div className="progress-stack">
-            <div className="step-pill">
-              {problemCompleted ? "できた" : `${stepIndex + 1} / ${steps.length}`}
-            </div>
-            <div className="question-progress">
-              {problemIndex + 1} / {problems.length} もん
-            </div>
-          </div>
-        </header>
-
-        <div className="work-area">
-          <CherryDiagram
-            parent={getCherryParent(problem)}
-            leftValue={getCherryLeftValue(problem, displayedAnswers)}
-            rightValue={getCherryRightValue(problem, displayedAnswers)}
-            activeTarget={currentStep?.visualTarget}
-          />
-
-          <EquationPanel
-            problem={problem}
-            currentStep={currentStep}
-            completed={problemCompleted}
-            answers={displayedAnswers}
-            stage={stage}
-          />
-        </div>
-
-        <div className="prompt-row">
-          {problemCompleted ? (
-            <p>
-              {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
-              {problem.right} = {problem.answer}
-            </p>
-          ) : (
-            <p>{currentStep.prompt}</p>
-          )}
-        </div>
-
-        <div className="feedback-row" aria-live="polite">
-          {feedback === "correct" && <div className="feedback correct">○</div>}
-          {feedback === "incorrect" && <div className="feedback incorrect">×</div>}
-          {!feedback && hint && <div className="hint-box">{hint}</div>}
-          {!feedback && !hint && <div className="hint-placeholder"> </div>}
-        </div>
-
-        {problemCompleted ? (
-          <div className="complete-actions">
-            <button className="primary-action" type="button" onClick={goToNextProblem}>
-              {problemIndex + 1 >= problems.length ? "おしまい" : "つぎへ"}
-            </button>
-          </div>
-        ) : (
-          <NumberButtons max={18} onSelect={handleAnswer} />
-        )}
-      </section>
-    </main>
+    <PracticeScreen
+      problem={problem}
+      currentStep={currentStep}
+      stage={stage}
+      displayedAnswers={displayedAnswers}
+      feedback={feedback}
+      hint={hint}
+      problemCompleted={problemCompleted}
+      problemIndex={problemIndex}
+      problemCount={problems.length}
+      stepIndex={stepIndex}
+      stepCount={steps.length}
+      onAnswer={handleAnswer}
+      onNextProblem={goToNextProblem}
+    />
   );
-}
-
-type RadioOptionProps = {
-  name: string;
-  value: string;
-  checked: boolean;
-  onChange: () => void;
-  label: string;
-};
-
-function RadioOption({ name, value, checked, onChange, label }: RadioOptionProps) {
-  return (
-    <label className="radio-card">
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      <span>{label}</span>
-    </label>
-  );
-}
-
-type EquationPanelProps = {
-  problem: Problem;
-  currentStep?: ProblemStep;
-  completed: boolean;
-  answers: Record<string, number>;
-  stage: LearningStage;
-};
-
-function EquationPanel({
-  problem,
-  currentStep,
-  completed,
-  answers,
-  stage
-}: EquationPanelProps) {
-  if (stage !== "step_by_step") {
-    return (
-      <div className="equation-panel" aria-label="練習のねらい">
-        <div className="focus-message">
-          {stage === "number_decomposition"
-            ? "数を2つにわけよう"
-            : "10を作るわけ方を考えよう"}
-        </div>
-      </div>
-    );
-  }
-
-  if (problem.strategy.type === "subtraction_split_minuend") {
-    const ones = answers["subtraction-ones"];
-    const remaining = answers["subtract-from-ten"];
-    const finalAnswer = answers["subtraction-final-answer"];
-
-    return (
-      <div className="equation-panel" aria-label="途中計算">
-        <div className="equation-line">
-          10 - {problem.strategy.subtrahend} = {remaining ?? "□"}
-        </div>
-        <div className="equation-line">
-          {remaining ?? "□"} + {ones ?? "□"} = {finalAnswer ?? "□"}
-        </div>
-        <div className="equation-note">
-          {completed
-            ? `答えは${problem.answer}`
-            : currentStep?.id === "subtraction-final-answer"
-              ? "さいごの答えをえらぼう"
-              : "10からひいて、のこりをあわせよう"}
-        </div>
-      </div>
-    );
-  }
-
-  const neededToTen = answers["needed-to-ten"];
-  const remainder = answers.remainder;
-  const answer = answers["final-answer"];
-
-  return (
-    <div className="equation-panel" aria-label="途中計算">
-      <div className="equation-line">
-        {problem.strategy.base} + {neededToTen ?? "□"} ={" "}
-        {neededToTen === problem.strategy.neededToTen ? 10 : "□"}
-      </div>
-      <div className="equation-line">
-        10 + {remainder ?? "□"} = {answer ?? "□"}
-      </div>
-      <div className="equation-note">
-        {completed
-          ? `答えは${problem.answer}`
-          : currentStep?.id === "final-answer"
-            ? "さいごの答えをえらぼう"
-            : "まず10のまとまりを作ろう"}
-      </div>
-    </div>
-  );
-}
-
-function getModeLabel(operation: Problem["operation"]): string {
-  return operation === "addition"
-    ? "たしざん・さくらんぼ計算"
-    : "ひきざん・さくらんぼ計算";
-}
-
-function getStageLabel(stage: LearningStage): string {
-  if (stage === "number_decomposition") {
-    return "かずをわける";
-  }
-
-  if (stage === "make_ten_decomposition") {
-    return "10をつくる";
-  }
-
-  return "じゅんばんにけいさん";
-}
-
-function getCherryParent(problem: Problem): number {
-  return problem.strategy.type === "addition_make_ten"
-    ? problem.strategy.addend
-    : problem.strategy.minuend;
-}
-
-function getCherryLeftValue(
-  problem: Problem,
-  answers: Record<string, number>
-): number | undefined {
-  return problem.strategy.type === "addition_make_ten"
-    ? answers["needed-to-ten"]
-    : 10;
-}
-
-function getCherryRightValue(
-  problem: Problem,
-  answers: Record<string, number>
-): number | undefined {
-  return problem.strategy.type === "addition_make_ten"
-    ? answers.remainder
-    : answers["subtraction-ones"];
 }
