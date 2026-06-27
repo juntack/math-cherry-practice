@@ -98,7 +98,7 @@ export function SetupScreen({
             ))}
           </fieldset>
 
-          <fieldset>
+          <fieldset disabled={stage === "mental_calculation"}>
             <legend>ヒントのりょう</legend>
             {supportOptions.map((option) => (
               <RadioOption

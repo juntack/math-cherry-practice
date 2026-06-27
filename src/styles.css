@@ -91,6 +91,12 @@ h1 {
   font-weight: 800;
 }
 
+.correct-progress {
+  color: #208b61;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 900;
+}
+
 .top-button {
   min-height: 46px;
   padding: 0 16px;
@@ -119,6 +125,23 @@ h1 {
   border: 2px solid #d8e3e0;
   border-radius: 8px;
   background: #fbfcfa;
+}
+
+.setup-panel fieldset:disabled {
+  background: #f1f4f3;
+  color: #6d7f84;
+}
+
+.setup-panel fieldset:disabled .radio-card {
+  border-color: #d8e3e0;
+  background: #f7f9f8;
+  color: #829397;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.setup-panel fieldset:disabled .radio-card input {
+  cursor: not-allowed;
 }
 
 .setup-panel legend {
@@ -153,6 +176,12 @@ h1 {
   border-color: #2f8f83;
   background: #edf7f4;
   box-shadow: 0 0 0 4px rgba(47, 143, 131, 0.12);
+}
+
+.setup-panel fieldset:disabled .radio-card:has(input:checked) {
+  border-color: #d8e3e0;
+  background: #f7f9f8;
+  box-shadow: none;
 }
 
 .work-area {

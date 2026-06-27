@@ -23,6 +23,7 @@ type PracticeScreenProps = {
   problemCompleted: boolean;
   problemIndex: number;
   problemCount: number;
+  completedProblems: number;
   stepIndex: number;
   stepCount: number;
   onAnswer: (value: number) => void;
@@ -41,12 +42,15 @@ export function PracticeScreen({
   problemCompleted,
   problemIndex,
   problemCount,
+  completedProblems,
   stepIndex,
   stepCount,
   onAnswer,
   onBackToSetup,
   onNextProblem
 }: PracticeScreenProps) {
+  const sessionCorrectCount = completedProblems + (problemCompleted ? 1 : 0);
+
   return (
     <main className="app-shell">
       <section className="practice-surface" aria-label="さくらんぼけいさんのれんしゅう">
@@ -67,6 +71,9 @@ export function PracticeScreen({
             </div>
             <div className="question-progress">
               {problemIndex + 1} / {problemCount} もん
+            </div>
+            <div className="correct-progress">
+              せいかい {sessionCorrectCount} / {problemCount}
             </div>
           </div>
         </header>
