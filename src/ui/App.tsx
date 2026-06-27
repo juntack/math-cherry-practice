@@ -189,7 +189,6 @@ export function App() {
       problemCompleted={problemCompleted}
       problemIndex={problemIndex}
       problemCount={problems.length}
-      completedProblems={completedProblems}
       stepIndex={stepIndex}
       stepCount={steps.length}
       onAnswer={handleAnswer}
