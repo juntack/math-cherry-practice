@@ -20,6 +20,7 @@ const QUESTION_COUNT_OPTIONS = [3, 5, 10];
 const ACTIVE_STAGE: LearningStage = "step_by_step";
 const SUPPORT_OPTIONS: Array<{ value: SupportLevel; label: string }> = [
   { value: "full", label: "おおい" },
+  { value: "medium", label: "ふつう" },
   { value: "less", label: "すくない" }
 ];
 

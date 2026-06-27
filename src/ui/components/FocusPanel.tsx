@@ -30,13 +30,14 @@ export function FocusPanel({
   stage,
   supportLevel
 }: FocusPanelProps) {
-  if (supportLevel === "less") {
+  if (supportLevel !== "full") {
     return (
       <ReducedSupportPanel
         problem={problem}
         currentStep={currentStep}
         completed={completed}
         answers={answers}
+        supportLevel={supportLevel}
       />
     );
   }
@@ -97,20 +98,81 @@ function ReducedSupportPanel({
   problem,
   currentStep,
   completed,
-  answers
+  answers,
+  supportLevel
 }: {
   problem: Problem;
   currentStep?: ProblemStep;
   completed: boolean;
   answers: Record<string, number>;
+  supportLevel: SupportLevel;
 }) {
+  const compactTenFrame = getCompactTenFrame(
+    problem,
+    currentStep,
+    completed,
+    supportLevel
+  );
+
   return (
-    <div className="focus-panel reduced-focus-panel" aria-label="ヒントがすくない">
+    <div
+      className={[
+        "focus-panel",
+        "reduced-focus-panel",
+        compactTenFrame ? "medium-focus-panel" : ""
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-label={supportLevel === "medium" ? "ヒントがふつう" : "ヒントがすくない"}
+    >
+      {compactTenFrame}
       <div className="reduced-equation">
         {getReducedEquation(problem, currentStep, completed, answers)}
       </div>
     </div>
   );
+}
+
+function getCompactTenFrame(
+  problem: Problem,
+  currentStep: ProblemStep | undefined,
+  completed: boolean,
+  supportLevel: SupportLevel
+) {
+  if (completed || supportLevel !== "medium") {
+    return null;
+  }
+
+  if (
+    currentStep?.visualFocus === "base_ten_frame" &&
+    problem.strategy.type === "addition_make_ten"
+  ) {
+    return (
+      <div className="compact-ten-frame">
+        <TenFrame
+          label={`${problem.strategy.base}を10にする`}
+          value={problem.strategy.base}
+        />
+      </div>
+    );
+  }
+
+  if (
+    currentStep?.visualFocus === "subtract_ten_frame" &&
+    problem.strategy.type === "subtraction_split_minuend"
+  ) {
+    return (
+      <div className="compact-ten-frame">
+        <TenFrame
+          label={`10から${problem.strategy.subtrahend}をひく`}
+          value={10}
+          mutedFrom={problem.strategy.remainingAfterSubtractFromTen}
+        />
+      </div>
+    );
+  }
+
+  return null;
 }
 
 function getReducedEquation(

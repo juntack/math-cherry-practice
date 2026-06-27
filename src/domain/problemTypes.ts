@@ -2,7 +2,7 @@ export type Operation = "addition" | "subtraction";
 
 export type PracticeMode = Operation | "mixed";
 
-export type SupportLevel = "full" | "less";
+export type SupportLevel = "full" | "medium" | "less";
 
 export type LearningStage =
   | "number_decomposition"

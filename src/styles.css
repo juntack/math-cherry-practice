@@ -172,6 +172,24 @@ h1 {
   min-height: 220px;
 }
 
+.medium-focus-panel {
+  grid-template-columns: minmax(180px, 0.42fr) minmax(240px, 0.58fr);
+  gap: 20px;
+}
+
+.compact-ten-frame {
+  width: min(100%, 260px);
+}
+
+.compact-ten-frame .ten-frame-label {
+  font-size: clamp(16px, 2.2vw, 22px);
+}
+
+.compact-ten-frame .ten-frame {
+  gap: 6px;
+  padding: 10px;
+}
+
 .reduced-equation {
   width: min(100%, 680px);
   padding: 28px 24px;
@@ -558,6 +576,10 @@ h1 {
 
   .number-grid {
     grid-template-columns: repeat(4, minmax(64px, 1fr));
+  }
+
+  .medium-focus-panel {
+    grid-template-columns: 1fr;
   }
 
   .step-track {
