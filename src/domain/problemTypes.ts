@@ -5,9 +5,7 @@ export type PracticeMode = Operation | "mixed";
 export type LearningStage =
   | "number_decomposition"
   | "make_ten_decomposition"
-  | "step_by_step"
-  | "reduced_support"
-  | "mental_math";
+  | "step_by_step";
 
 export type AdditionMakeTenStrategy = {
   type: "addition_make_ten";
@@ -56,6 +54,7 @@ export type ProblemStep = {
   expectedAnswer: number;
   answerKind: AnswerKind;
   visualTarget: VisualTarget;
+  knownAnswers?: Record<string, number>;
 };
 
 export type ErrorType =

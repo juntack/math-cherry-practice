@@ -1,5 +1,10 @@
 import { useMemo, useState } from "react";
-import type { PracticeMode, Problem, ProblemStep } from "../domain/problemTypes";
+import type {
+  LearningStage,
+  PracticeMode,
+  Problem,
+  ProblemStep
+} from "../domain/problemTypes";
 import { playFeedbackSound } from "../audio/feedbackSound";
 import { buildProblemSteps } from "../logic/buildProblemSteps";
 import { generateProblem } from "../logic/createProblem";
@@ -11,10 +16,16 @@ type Feedback = "correct" | "incorrect" | null;
 type SessionState = "setup" | "practice" | "result";
 
 const QUESTION_COUNT_OPTIONS = [3, 5, 10];
+const STAGE_OPTIONS: Array<{ value: LearningStage; label: string }> = [
+  { value: "number_decomposition", label: "かずをわける" },
+  { value: "make_ten_decomposition", label: "10をつくる" },
+  { value: "step_by_step", label: "じゅんばん" }
+];
 
 export function App() {
   const [sessionState, setSessionState] = useState<SessionState>("setup");
   const [mode, setMode] = useState<PracticeMode>("addition");
+  const [stage, setStage] = useState<LearningStage>("step_by_step");
   const [questionCount, setQuestionCount] = useState(5);
   const [problems, setProblems] = useState<Problem[]>([]);
   const [problemIndex, setProblemIndex] = useState(0);
@@ -26,9 +37,16 @@ export function App() {
   const [completedProblems, setCompletedProblems] = useState(0);
 
   const problem = problems[problemIndex];
-  const steps = useMemo(() => (problem ? buildProblemSteps(problem) : []), [problem]);
+  const steps = useMemo(
+    () => (problem ? buildProblemSteps(problem, stage) : []),
+    [problem, stage]
+  );
   const currentStep = steps[stepIndex];
   const problemCompleted = Boolean(problem) && stepIndex >= steps.length;
+  const displayedAnswers = {
+    ...answers,
+    ...(currentStep?.knownAnswers ?? {})
+  };
 
   function startSession() {
     const nextProblems = Array.from({ length: questionCount }, () =>
@@ -151,6 +169,20 @@ export function App() {
                 />
               ))}
             </fieldset>
+
+            <fieldset className="wide-fieldset">
+              <legend>れんしゅう</legend>
+              {STAGE_OPTIONS.map((option) => (
+                <RadioOption
+                  key={option.value}
+                  name="stage"
+                  value={option.value}
+                  checked={stage === option.value}
+                  onChange={() => setStage(option.value)}
+                  label={option.label}
+                />
+              ))}
+            </fieldset>
           </div>
 
           <button className="primary-action" type="button" onClick={startSession}>
@@ -191,6 +223,7 @@ export function App() {
         <header className="practice-header">
           <div>
             <p className="mode-label">{getModeLabel(problem.operation)}</p>
+            <p className="stage-label">{getStageLabel(stage)}</p>
             <h1>
               {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
               {problem.right}
@@ -209,8 +242,8 @@ export function App() {
         <div className="work-area">
           <CherryDiagram
             parent={getCherryParent(problem)}
-            leftValue={getCherryLeftValue(problem, answers)}
-            rightValue={getCherryRightValue(problem, answers)}
+            leftValue={getCherryLeftValue(problem, displayedAnswers)}
+            rightValue={getCherryRightValue(problem, displayedAnswers)}
             activeTarget={currentStep?.visualTarget}
           />
 
@@ -218,7 +251,8 @@ export function App() {
             problem={problem}
             currentStep={currentStep}
             completed={problemCompleted}
-            answers={answers}
+            answers={displayedAnswers}
+            stage={stage}
           />
         </div>
 
@@ -282,14 +316,28 @@ type EquationPanelProps = {
   currentStep?: ProblemStep;
   completed: boolean;
   answers: Record<string, number>;
+  stage: LearningStage;
 };
 
 function EquationPanel({
   problem,
   currentStep,
   completed,
-  answers
+  answers,
+  stage
 }: EquationPanelProps) {
+  if (stage !== "step_by_step") {
+    return (
+      <div className="equation-panel" aria-label="練習のねらい">
+        <div className="focus-message">
+          {stage === "number_decomposition"
+            ? "数を2つにわけよう"
+            : "10を作るわけ方を考えよう"}
+        </div>
+      </div>
+    );
+  }
+
   if (problem.strategy.type === "subtraction_split_minuend") {
     const ones = answers["subtraction-ones"];
     const remaining = answers["subtract-from-ten"];
@@ -342,6 +390,18 @@ function getModeLabel(operation: Problem["operation"]): string {
   return operation === "addition"
     ? "たしざん・さくらんぼ計算"
     : "ひきざん・さくらんぼ計算";
+}
+
+function getStageLabel(stage: LearningStage): string {
+  if (stage === "number_decomposition") {
+    return "かずをわける";
+  }
+
+  if (stage === "make_ten_decomposition") {
+    return "10をつくる";
+  }
+
+  return "じゅんばんにけいさん";
 }
 
 function getCherryParent(problem: Problem): number {
