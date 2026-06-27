@@ -73,6 +73,21 @@ android/app/build/outputs/apk/debug/app-debug.apk
 
 `assembleDebug` 実行時に、Gradleが自動で親ディレクトリの `npm run build` を実行し、`dist/` の中身を `android/app/src/main/assets/` へ同期します。
 
+## iOS / iPadOS向けPWA
+
+iPhoneやiPadでは、SafariでWeb版を一度開き、共有メニューから「ホーム画面に追加」することでPWAとして利用できます。Service Workerがビルド済みファイルをキャッシュするため、追加後はオフラインでも起動できます。
+
+PWA用ファイルは `npm run build` 時に生成されます。
+
+```txt
+dist/manifest.webmanifest
+dist/service-worker.js
+dist/icon-192.png
+dist/icon-512.png
+```
+
+初回登録時と更新時にはWeb版へアクセスする必要があります。
+
 ## 初期版で含めないもの
 
 - 成績データ保存

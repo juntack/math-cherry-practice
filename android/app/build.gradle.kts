@@ -1,5 +1,5 @@
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.Sync
 
 plugins {
     alias(libs.plugins.android.application)
@@ -12,7 +12,7 @@ val buildWebAssets by tasks.registering(Exec::class) {
     commandLine("npm", "run", "build")
 }
 
-val syncWebAssets by tasks.registering(Copy::class) {
+val syncWebAssets by tasks.registering(Sync::class) {
     dependsOn(buildWebAssets)
     from(webProjectDir.resolve("dist"))
     into(layout.projectDirectory.dir("src/main/assets"))
