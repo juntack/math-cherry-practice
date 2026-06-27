@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   LearningStage,
   PracticeMode,
@@ -28,6 +28,7 @@ const STAGE_OPTIONS: Array<{ value: LearningStage; label: string }> = [
 ];
 
 export function App() {
+  const feedbackTimerRef = useRef<number | null>(null);
   const [sessionState, setSessionState] = useState<SessionState>("setup");
   const [mode, setMode] = useState<PracticeMode>("addition");
   const [stage, setStage] = useState<LearningStage>("step_by_step");
@@ -54,6 +55,17 @@ export function App() {
     ...(currentStep?.knownAnswers ?? {})
   };
 
+  useEffect(() => () => clearFeedbackTimer(), []);
+
+  function clearFeedbackTimer() {
+    if (feedbackTimerRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(feedbackTimerRef.current);
+    feedbackTimerRef.current = null;
+  }
+
   function startSession() {
     const nextProblems = Array.from({ length: questionCount }, () =>
       generateProblem(mode)
@@ -79,9 +91,11 @@ export function App() {
       setHint("");
       setFeedback("correct");
       playFeedbackSound("correct");
-      window.setTimeout(() => {
+      clearFeedbackTimer();
+      feedbackTimerRef.current = window.setTimeout(() => {
         setFeedback(null);
         setStepIndex((previous) => previous + 1);
+        feedbackTimerRef.current = null;
       }, 650);
       return;
     }
@@ -93,7 +107,11 @@ export function App() {
     setHint(result.hint);
     setFeedback("incorrect");
     playFeedbackSound("incorrect");
-    window.setTimeout(() => setFeedback(null), 650);
+    clearFeedbackTimer();
+    feedbackTimerRef.current = window.setTimeout(() => {
+      setFeedback(null);
+      feedbackTimerRef.current = null;
+    }, 650);
   }
 
   function goToNextProblem() {
@@ -110,6 +128,7 @@ export function App() {
   }
 
   function resetProblemState() {
+    clearFeedbackTimer();
     setStepIndex(0);
     setAnswers({});
     setMistakes({});

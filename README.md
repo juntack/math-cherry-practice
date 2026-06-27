@@ -70,4 +70,5 @@ npm run build
 - [学習フロー](docs/learning-flow.md)
 - [実装計画](docs/implementation-plan.md)
 - [最小プロトタイプ仕様](docs/prototype.md)
+- [MVP仕上げ確認](docs/mvp-final-check.md)
 - [未確定事項・決定事項](docs/decisions.md)
