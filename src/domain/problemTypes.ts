@@ -1,5 +1,7 @@
 export type Operation = "addition" | "subtraction";
 
+export type PracticeMode = Operation | "mixed";
+
 export type LearningStage =
   | "number_decomposition"
   | "make_ten_decomposition"
@@ -17,13 +19,27 @@ export type AdditionMakeTenStrategy = {
   answer: number;
 };
 
+export type SubtractionSplitMinuendStrategy = {
+  type: "subtraction_split_minuend";
+  minuend: number;
+  subtrahend: number;
+  ten: 10;
+  ones: number;
+  remainingAfterSubtractFromTen: number;
+  answer: number;
+};
+
+export type Strategy =
+  | AdditionMakeTenStrategy
+  | SubtractionSplitMinuendStrategy;
+
 export type Problem = {
   id: string;
   operation: Operation;
   left: number;
   right: number;
   answer: number;
-  strategy: AdditionMakeTenStrategy;
+  strategy: Strategy;
 };
 
 export type AnswerKind =
