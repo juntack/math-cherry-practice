@@ -3,6 +3,7 @@ import type {
   Problem,
   ProblemStep
 } from "../../domain/problemTypes";
+import { TenFrame } from "./TenFrame";
 
 type EquationPanelProps = {
   problem: Problem;
@@ -27,6 +28,7 @@ export function EquationPanel({
             ? "数を2つにわけよう"
             : "10を作るわけ方を考えよう"}
         </div>
+        <TenFrameGroup problem={problem} answers={answers} stage={stage} />
       </div>
     );
   }
@@ -51,6 +53,7 @@ export function EquationPanel({
               ? "さいごの答えをえらぼう"
               : "10からひいて、のこりをあわせよう"}
         </div>
+        <TenFrameGroup problem={problem} answers={answers} stage={stage} />
       </div>
     );
   }
@@ -75,6 +78,50 @@ export function EquationPanel({
             ? "さいごの答えをえらぼう"
             : "まず10のまとまりを作ろう"}
       </div>
+      <TenFrameGroup problem={problem} answers={answers} stage={stage} />
+    </div>
+  );
+}
+
+function TenFrameGroup({
+  problem,
+  answers,
+  stage
+}: {
+  problem: Problem;
+  answers: Record<string, number>;
+  stage: LearningStage;
+}) {
+  if (problem.strategy.type === "addition_make_ten") {
+    const madeTen = answers["needed-to-ten"] === problem.strategy.neededToTen;
+    const showRemainder =
+      stage === "step_by_step" && answers.remainder === problem.strategy.remainder;
+
+    return (
+      <div className="ten-frame-group">
+        <TenFrame
+          label={madeTen ? "10のまとまり" : `${problem.strategy.base}`}
+          value={madeTen ? 10 : problem.strategy.base}
+          mutedFrom={problem.strategy.base}
+        />
+        {showRemainder && (
+          <TenFrame label="のこり" value={problem.strategy.remainder} />
+        )}
+      </div>
+    );
+  }
+
+  const remaining = answers["subtract-from-ten"];
+  const ones = answers["subtraction-ones"];
+
+  return (
+    <div className="ten-frame-group">
+      <TenFrame
+        label={remaining === undefined ? "10からひく" : "10からひいたのこり"}
+        value={remaining ?? 10}
+        mutedFrom={remaining}
+      />
+      {ones !== undefined && <TenFrame label="わけた数" value={ones} />}
     </div>
   );
 }

@@ -102,11 +102,12 @@ src/
 src/ui/
   App.tsx
   practiceDisplay.ts
-  components/
-    CherryDiagram.tsx
-    EquationPanel.tsx
-    NumberButtons.tsx
-    RadioOption.tsx
+    components/
+      CherryDiagram.tsx
+      EquationPanel.tsx
+      NumberButtons.tsx
+      RadioOption.tsx
+      TenFrame.tsx
   screens/
     SetupScreen.tsx
     PracticeScreen.tsx

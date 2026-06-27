@@ -276,7 +276,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 22px;
+  gap: 18px;
 }
 
 .equation-line {
@@ -298,13 +298,59 @@ h1 {
 }
 
 .focus-message {
-  min-height: 170px;
+  min-height: 96px;
   display: grid;
   place-items: center;
   color: #173c42;
   font-size: clamp(28px, 5vw, 46px);
   font-weight: 900;
   text-align: center;
+}
+
+.ten-frame-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(128px, 1fr));
+  gap: 12px;
+}
+
+.ten-frame-block {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.ten-frame-label {
+  color: #4f666d;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 900;
+  text-align: center;
+}
+
+.ten-frame {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  padding: 8px;
+  border: 2px solid #bfd7d1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ten-frame-cell {
+  aspect-ratio: 1;
+  border: 2px solid #d7e6e2;
+  border-radius: 50%;
+  background: #f8fbfa;
+}
+
+.ten-frame-cell.filled {
+  border-color: #2f8f83;
+  background: #2f8f83;
+}
+
+.ten-frame-cell.muted {
+  border-color: #f0a43a;
+  background: #f0a43a;
 }
 
 .prompt-row {
