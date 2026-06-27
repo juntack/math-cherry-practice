@@ -60,13 +60,6 @@ button {
   font-weight: 700;
 }
 
-.stage-label {
-  margin: 0 0 8px;
-  color: #2f8f83;
-  font-size: clamp(18px, 2.3vw, 24px);
-  font-weight: 900;
-}
-
 h1 {
   margin: 0;
   color: #0f2e38;
@@ -100,7 +93,7 @@ h1 {
 
 .setup-panel {
   display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
   gap: 24px;
 }
 
@@ -147,10 +140,6 @@ h1 {
   border-color: #2f8f83;
   background: #edf7f4;
   box-shadow: 0 0 0 4px rgba(47, 143, 131, 0.12);
-}
-
-.wide-fieldset {
-  grid-column: span 1;
 }
 
 .work-area {
@@ -518,10 +507,6 @@ h1 {
 
   .setup-panel {
     grid-template-columns: 1fr;
-  }
-
-  .wide-fieldset {
-    grid-column: auto;
   }
 
   .cherry-card,

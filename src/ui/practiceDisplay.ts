@@ -1,21 +1,9 @@
-import type { LearningStage, Problem } from "../domain/problemTypes";
+import type { Problem } from "../domain/problemTypes";
 
 export function getModeLabel(operation: Problem["operation"]): string {
   return operation === "addition"
     ? "たしざん・さくらんぼ計算"
     : "ひきざん・さくらんぼ計算";
-}
-
-export function getStageLabel(stage: LearningStage): string {
-  if (stage === "number_decomposition") {
-    return "かずをわける";
-  }
-
-  if (stage === "make_ten_decomposition") {
-    return "10をつくる";
-  }
-
-  return "じゅんばんにけいさん";
 }
 
 export function getCherryParent(problem: Problem): number {

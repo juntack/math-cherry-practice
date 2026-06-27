@@ -12,16 +12,11 @@ import { SetupScreen } from "./screens/SetupScreen";
 type SessionState = "setup" | "practice" | "result";
 
 const QUESTION_COUNT_OPTIONS = [3, 5, 10];
-const STAGE_OPTIONS: Array<{ value: LearningStage; label: string }> = [
-  { value: "number_decomposition", label: "かずをわける" },
-  { value: "make_ten_decomposition", label: "10をつくる" },
-  { value: "step_by_step", label: "じゅんばん" }
-];
+const ACTIVE_STAGE: LearningStage = "step_by_step";
 
 export function App() {
   const [sessionState, setSessionState] = useState<SessionState>("setup");
   const [mode, setMode] = useState<PracticeMode>("addition");
-  const [stage, setStage] = useState<LearningStage>("step_by_step");
   const [questionCount, setQuestionCount] = useState(5);
   const [problems, setProblems] = useState<Problem[]>([]);
   const [problemIndex, setProblemIndex] = useState(0);
@@ -34,8 +29,8 @@ export function App() {
 
   const problem = problems[problemIndex];
   const steps = useMemo(
-    () => (problem ? buildProblemSteps(problem, stage) : []),
-    [problem, stage]
+    () => (problem ? buildProblemSteps(problem, ACTIVE_STAGE) : []),
+    [problem]
   );
   const currentStep = steps[stepIndex];
   const problemCompleted = Boolean(problem) && stepIndex >= steps.length;
@@ -119,12 +114,9 @@ export function App() {
     return (
       <SetupScreen
         mode={mode}
-        stage={stage}
         questionCount={questionCount}
         questionCountOptions={QUESTION_COUNT_OPTIONS}
-        stageOptions={STAGE_OPTIONS}
         onModeChange={setMode}
-        onStageChange={setStage}
         onQuestionCountChange={setQuestionCount}
         onStart={startSession}
       />
@@ -149,7 +141,7 @@ export function App() {
     <PracticeScreen
       problem={problem}
       currentStep={currentStep}
-      stage={stage}
+      stage={ACTIVE_STAGE}
       displayedAnswers={displayedAnswers}
       feedback={feedback}
       hint={hint}

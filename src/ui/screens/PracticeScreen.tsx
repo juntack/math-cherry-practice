@@ -7,7 +7,6 @@ import { FocusPanel } from "../components/FocusPanel";
 import { NumberButtons } from "../components/NumberButtons";
 import {
   getModeLabel,
-  getStageLabel
 } from "../practiceDisplay";
 
 export type Feedback = "correct" | "incorrect" | null;
@@ -49,7 +48,6 @@ export function PracticeScreen({
         <header className="practice-header">
           <div>
             <p className="mode-label">{getModeLabel(problem.operation)}</p>
-            <p className="stage-label">{getStageLabel(stage)}</p>
             <h1>
               {problem.left} {problem.operation === "addition" ? "+" : "-"}{" "}
               {problem.right}
